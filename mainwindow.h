@@ -34,6 +34,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    QString getFromText();
+    QString getToText();
+    void setFromText(QString text);
+    void setToText(QString text);
 
 private slots:
     void on_scanButton_clicked();

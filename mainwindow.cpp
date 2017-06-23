@@ -20,7 +20,6 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QIcon>
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -45,24 +44,44 @@ bool MainWindow::assertFileExists(QString fName)
 
 void MainWindow::setTextElements()
 {
-    this->fromText = ui->fromText->document()->toPlainText();
-    this->toText   = ui->toText->document()->toPlainText();
+    this->setFromText(ui->fromText->document()->toPlainText());
+    this->setToText(ui->toText->document()->toPlainText());
+}
+
+void setFromText(QString text)
+{
+    this->fromText = text;
+}
+
+void setToText(QString text)
+{
+    this->toText = text;
+}
+
+QString MainWindow::getFromText()
+{
+    return this->fromText;
+}
+
+QString MainWindow::getToText()
+{
+    return this->toText;
 }
 
 bool MainWindow::checkElements()
 {
-    if (this->fromText.trimmed() == "" || this->toText.trimmed() == "") {
+    if (this->getFromText().trimmed() == "" || this->getToText().trimmed() == "") {
         ui->statusBar->showMessage("ERROR: Make sure you fill out both From and To!");
         return false;
     }
 
-    if (!this->assertFileExists(this->fromText)) {
-        ui->statusBar->showMessage(QString::asprintf("File %s does not exist!", this->fromText.toStdString().c_str()));
+    if (!this->assertFileExists(this->getFromText())) {
+        ui->statusBar->showMessage(QString::asprintf("File %s does not exist!", this->getFromText().toStdString().c_str()));
         return false;
     }
 
-    if (this->assertFileExists(this->toText)) {
-        ui->statusBar->showMessage(QString::asprintf("File %s already exists!", this->toText.toStdString().c_str()));
+    if (this->assertFileExists(this->getToText())) {
+        ui->statusBar->showMessage(QString::asprintf("File %s already exists!", this->getToText().toStdString().c_str()));
         return false;
     }
 
@@ -73,7 +92,7 @@ void MainWindow::on_scanButton_clicked()
 {
     this->setTextElements();
     if (this->checkElements()) {
-        ui->statusBar->showMessage(QString::asprintf("File %s exists and is ready to be linked!", this->fromText.toStdString().c_str()));
+        ui->statusBar->showMessage(QString::asprintf("File %s exists and is ready to be linked!", this->getFromText().toStdString().c_str()));
     }
 }
 
@@ -81,7 +100,7 @@ void MainWindow::on_linkButton_clicked()
 {
     this->setTextElements();
     if (this->checkElements()) {
-        bool linkStatus = QFile::link(this->fromText, this->toText);
+        bool linkStatus = QFile::link(this->getFromText(), this->getToText());
 
         if (linkStatus) {
             ui->statusBar->showMessage("Link Successfully Created!");
@@ -95,9 +114,9 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     QStringList lst = arg1.split(" -> ");
 
-    this->fromText = arg1 == "" ? "" : lst[0];
-    this->toText   = arg1 == "" ? "" : lst[1];
+    this->getFromText() = arg1 == "" ? "" : lst[0];
+    this->getToText()   = arg1 == "" ? "" : lst[1];
 
-    ui->fromText->document()->setPlainText(this->fromText);
-    ui->toText->document()->setPlainText(this->toText);
+    ui->fromText->document()->setPlainText(this->getFromText());
+    ui->toText->document()->setPlainText(this->getToText());
 }
