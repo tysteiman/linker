@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>492</width>
-    <height>193</height>
+    <width>496</width>
+    <height>233</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>110</y>
+      <y>150</y>
       <width>411</width>
       <height>31</height>
      </rect>
@@ -48,7 +48,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>60</y>
+      <y>100</y>
       <width>411</width>
       <height>31</height>
      </rect>
@@ -66,14 +66,14 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>20</y>
+      <y>40</y>
       <width>411</width>
       <height>21</height>
      </rect>
     </property>
     <item>
      <property name="text">
-      <string></string>
+      <string/>
      </property>
     </item>
     <item>
@@ -86,6 +86,45 @@
       <string>/var/run/mysql/mysql.sock -&gt; /tmp/mysql.sock</string>
      </property>
     </item>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>80</y>
+      <width>59</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>From</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>80</y>
+      <width>59</width>
+      <height>14</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>To</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Preset Options</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>

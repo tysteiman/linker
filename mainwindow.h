@@ -38,14 +38,14 @@ public:
 private slots:
     void on_scanButton_clicked();
     void on_linkButton_clicked();
-    bool assertFileExists(QString fName);
-
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
     QString fromText;
     QString toText;
+    void setTextElements();
+    bool assertFileExists(QString fName);
 };
 
 #endif // MAINWINDOW_H

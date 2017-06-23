@@ -28,9 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->fromText->document()->setPlainText("/var/run/mysqld/mysqld.sock");
-    ui->toText->document()->setPlainText("/tmp/mysql.sock");
-
     ui->statusBar->showMessage("Waiting to link... Press Scan to begin!");
 
     this->setWindowTitle("Linker");
@@ -46,10 +43,20 @@ bool MainWindow::assertFileExists(QString fName)
     return QFile::exists(fName);
 }
 
-void MainWindow::on_scanButton_clicked()
+void MainWindow::setTextElements()
 {
     this->fromText = ui->fromText->document()->toPlainText();
-    this->toText = ui->toText->document()->toPlainText();
+    this->toText   = ui->toText->document()->toPlainText();
+}
+
+void MainWindow::on_scanButton_clicked()
+{
+    this->setTextElements();
+
+    if (this->fromText.trimmed() == "" || this->toText.trimmed() == "") {
+        ui->statusBar->showMessage("ERROR: Make sure you fill out both From and To!");
+        return;
+    }
 
     if (!this->assertFileExists(this->fromText)) {
         ui->statusBar->showMessage(QString::asprintf("File %s does not exist!", this->fromText.toStdString().c_str()));
@@ -66,8 +73,7 @@ void MainWindow::on_scanButton_clicked()
 
 void MainWindow::on_linkButton_clicked()
 {
-    this->fromText = ui->fromText->document()->toPlainText();
-    this->toText = ui->toText->document()->toPlainText();
+    this->setTextElements();
 
     bool linkStatus = QFile::link(this->fromText, this->toText);
 
@@ -82,8 +88,8 @@ void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
     QStringList lst = arg1.split(" -> ");
 
-    this->fromText = lst[0];
-    this->toText = lst[1];
+    this->fromText = arg1 == "" ? "" : lst[0];
+    this->toText   = arg1 == "" ? "" : lst[1];
 
     ui->fromText->document()->setPlainText(this->fromText);
     ui->toText->document()->setPlainText(this->toText);
