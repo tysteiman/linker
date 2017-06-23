@@ -23,8 +23,8 @@
 #include <QIcon>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+        QMainWindow(parent),
+        ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -49,38 +49,45 @@ void MainWindow::setTextElements()
     this->toText   = ui->toText->document()->toPlainText();
 }
 
-void MainWindow::on_scanButton_clicked()
+bool MainWindow::checkElements()
 {
-    this->setTextElements();
-
     if (this->fromText.trimmed() == "" || this->toText.trimmed() == "") {
         ui->statusBar->showMessage("ERROR: Make sure you fill out both From and To!");
-        return;
+        return false;
     }
 
     if (!this->assertFileExists(this->fromText)) {
         ui->statusBar->showMessage(QString::asprintf("File %s does not exist!", this->fromText.toStdString().c_str()));
-        return;
+        return false;
     }
 
     if (this->assertFileExists(this->toText)) {
         ui->statusBar->showMessage(QString::asprintf("File %s already exists!", this->toText.toStdString().c_str()));
-        return;
+        return false;
     }
 
-    ui->statusBar->showMessage(QString::asprintf("File %s exists and is ready to be linked!", this->fromText.toStdString().c_str()));
+    return true;
+}
+
+void MainWindow::on_scanButton_clicked()
+{
+    this->setTextElements();
+    if (this->checkElements()) {
+        ui->statusBar->showMessage(QString::asprintf("File %s exists and is ready to be linked!", this->fromText.toStdString().c_str()));
+    }
 }
 
 void MainWindow::on_linkButton_clicked()
 {
     this->setTextElements();
+    if (this->checkElements()) {
+        bool linkStatus = QFile::link(this->fromText, this->toText);
 
-    bool linkStatus = QFile::link(this->fromText, this->toText);
-
-    if (linkStatus) {
-        ui->statusBar->showMessage("Link Successfully Created!");
-    } else {
-        ui->statusBar->showMessage("ERROR: Link NOT created... maybe Scan will help?");
+        if (linkStatus) {
+            ui->statusBar->showMessage("Link Successfully Created!");
+        } else {
+            ui->statusBar->showMessage("ERROR: Link NOT created... maybe Scan will help?");
+        }
     }
 }
 

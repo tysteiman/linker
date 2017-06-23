@@ -46,6 +46,7 @@ private:
     QString toText;
     void setTextElements();
     bool assertFileExists(QString fName);
+    bool checkElements();
 };
 
 #endif // MAINWINDOW_H
