@@ -48,12 +48,12 @@ void MainWindow::setTextElements()
     this->setToText(ui->toText->document()->toPlainText());
 }
 
-void setFromText(QString text)
+void MainWindow::setFromText(QString text)
 {
     this->fromText = text;
 }
 
-void setToText(QString text)
+void MainWindow::setToText(QString text)
 {
     this->toText = text;
 }
@@ -112,6 +112,7 @@ void MainWindow::on_linkButton_clicked()
 
 void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
+    this->setTextElements();
     QStringList lst = arg1.split(" -> ");
 
     this->getFromText() = arg1 == "" ? "" : lst[0];
