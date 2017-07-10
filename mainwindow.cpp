@@ -112,11 +112,10 @@ void MainWindow::on_linkButton_clicked()
 
 void MainWindow::on_comboBox_currentIndexChanged(const QString &arg1)
 {
-    this->setTextElements();
     QStringList lst = arg1.split(" -> ");
 
-    this->getFromText() = arg1 == "" ? "" : lst[0];
-    this->getToText()   = arg1 == "" ? "" : lst[1];
+    this->setFromText(arg1 == "" ? "" : lst[0]);
+    this->setToText(arg1 == "" ? "" : lst[1]);
 
     ui->fromText->document()->setPlainText(this->getFromText());
     ui->toText->document()->setPlainText(this->getToText());
